@@ -1,9 +1,12 @@
 {
-  "name": "node-todo",
+  "name": "czechitas-data-na-webu",
   "version": "0.0.1",
-  "description": "Simple todo application.",
+  "description": "Simple todo application with Node.js and MongoDB",
   "main": "server.js",
-  "author": "Scotch",
+  "author": "Michal Weiser <michal.weiser@gmail.com>",
+  "scripts": {
+    "startdb": "mongod --dbpath ./data/db/"
+  },
   "dependencies": {
     "body-parser": "^1.4.3",
     "express": "^4.13.4",
