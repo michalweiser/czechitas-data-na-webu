@@ -38,12 +38,29 @@ var request = function request(type, url, data) {
 
 // http service
 var http = {
+  get: function (url) {
+    return request('GET', url);
+  },
+  post: function (url) {
+    return request('POST', url, data);
 
+  },
+  delete: function (url) {
+    return request ('DELETE', url);
+  }
 };
 
 // Todo Service
 var Service = function Service(http) {
-
+  this.get = function() {
+    return http.get('/api/todos');
+  };
+  this.create = function(todoData) {
+    return http.post ('api/todos/');
+  } 
+  this.delete = function(id) {
+    return http.delete('/api/todos' + id);
+  };
 };
 
 var View = function View(scope) {
@@ -124,15 +141,23 @@ var Control = function Control(view, service) {
   }.bind(this);
 
   view.onSubmit = function() {
-
+    this.createTodo();
   }.bind(this);
 
+//Start
   service.get().then(function (data) {
-
+    this.updateTodos(data);
+    this.isLoading(false);
   }.bind(this));
 
   this.createTodo = function createTodo() {
-
+    if (view.inputValue() !==''){
+      this.isLoading(false);
+      service.create(this.createData()).then(function (data) {
+      view.cleanInput();
+      this.updateTodos(data);
+    }.bind(this));
+    }
   };
 
   this.createData = function createData() {
@@ -144,11 +169,13 @@ var Control = function Control(view, service) {
   };
 
   this.isLoading = function isLoading(state) {
-
+    this.loading = state;
+    view.isLoading(state);
   }
 
   this.updateTodos = function (data) {
-
+    this.todos = data;
+    view.updateTodos(data);
   }
 };
 
