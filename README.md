@@ -13,8 +13,9 @@ Cilem je vytvoreni aplikace pro spravu ToDo listu.
 
 ## Instalace
 
-1. Clone the repository: `git clone git@github.com:scotch-io/node-todo`
+1. Clone the repository: `git clone https://github.com/michalweiser/czechitas-data-na-webu.git`
 2. Install the application: `npm install`
 3. Place your own MongoDB URI in `config/database.js`
+4. Run mongoDB `"C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe" --dbpath ".\data\db"`
 3. Start the server: `node server.js`
 4. View in browser at `http://localhost:8080`
