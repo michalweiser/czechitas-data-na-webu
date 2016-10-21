@@ -1,17 +1,15 @@
 <!doctype html>
-
-<!-- ASSIGN OUR ANGULAR MODULE -->
-<html ng-app="scotchTodo">
+<html>
 <head>
-	<!-- META -->
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Czechitas Todo App</title>
 
-	<!-- SCROLLS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+
 	<style>
 		html 					{ overflow-y:scroll; }
 		body 					{ padding-top:50px; }
@@ -19,41 +17,36 @@
 		#todo-form 	 			{ margin-bottom:50px; }
 	</style>
 
-	<script src="js/core.js"></script> <!-- load our main application -->
+	<script src="js/core.js"></script>
 
 </head>
-<!-- SET THE CONTROLLER -->
-<body ng-controller="mainController">
+
+<body>
 	<div class="container">
 
-		<!-- HEADER AND TODO COUNT -->
 		<div class="jumbotron text-center">
 			<h1>Czechitas Todo App <span class="label label-info length"></span></h1>
 		</div>
 
-		<!-- TODO LIST -->
 		<div id="todo-list" class="row">
 			<div class="col-sm-4 col-sm-offset-4 todos">
 
-				<p class="text-center spinner" ng-show="loading">
+				<p class="text-center spinner">
 					<span class="fa fa-spinner fa-spin fa-3x"></span>
 				</p>
 
 			</div>
 		</div>
 
-		<!-- FORM TO CREATE TODOS -->
 		<div id="todo-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
 				<form>
 					<div class="form-group">
 
-						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" name="text" class="form-control input-lg text-center input" placeholder="Learn JavaScript" ng-model="formData.text">
+						<input type="text" name="text" class="form-control input-lg text-center input" placeholder="Learn JavaScript">
 					</div>
 
-					<!-- createToDo() WILL CREATE NEW TODOS -->
-					<button type="submit" class="btn btn-primary btn-lg submit" ng-click="createTodo()">Add</button>
+					<button type="submit" class="btn btn-primary btn-lg submit">Add</button>
 				</form>
 			</div>
 		</div>
