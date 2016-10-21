@@ -1,0 +1,1 @@
+"C:\Program Files\MongoDB\Server\3.2\bin\mongoimport" --host=127.0.0.1 --db  test --collection restaurants --drop --file .\data\primer-dataset.json

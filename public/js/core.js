@@ -1,11 +1,12 @@
 var serialize = function (data) {
   var keys = [];
 
-  Object.keys(data).forEach(function(key) {
+  Object.keys(data).forEach(function (key) {
     if (data.hasOwnProperty(key)) {
       keys.push(key + '=' + data[key]);
     }
   })
+
 
   return keys.join('&');
 };
@@ -13,7 +14,7 @@ var serialize = function (data) {
 var request = function request(type, url, data) {
   var data = data || null;
 
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) { //balime do promisu, abychom si s nim mohli lepe povidat
     var xhr = new XMLHttpRequest();
     xhr.open(type, url, true);
     xhr.onreadystatechange = function () {
@@ -36,13 +37,31 @@ var request = function request(type, url, data) {
   });
 }
 
-// http service
+// http service //k tomu lepsimu povidani je dobre si vytvorit nejake services - pomocnik, aby to rozhrani pro povidani bylo hezci
 var http = {
+  get: function (url) {
+    return request('GET', url);
+  },
+  post: function (url, data) {
+    return request('POST', url, data);
+  },
+  delete: function (url) {
+    return request('DELETE', url);
+  }
 
 };
 
-// Todo Service
+// Todo Service  //kodujeme to, co ten clovek vidi na prohlizeci
 var Service = function Service(http) {
+  this.get = function () {
+    return http.get('/api/todos');
+  };
+  this.create = function (todoData) {
+    return http.post('/api/todos', todoData);
+  };
+  this.delete = function (id) {
+    return http.delete('/api/todos/' + id);
+  };
 
 };
 
@@ -114,41 +133,61 @@ var View = function View(scope) {
   }
 };
 
-// Todo Controller
+// Todo Controller  //mozek stranky, ktery se strankou neco dela
 var Control = function Control(view, service) {
   this.loading = true;
   this.todos = {};
 
-  view.onDeleteTodo = function(id) {
-
+  view.onDeleteTodo = function (id) {
+    this.deleteTodo(id);
   }.bind(this);
 
-  view.onSubmit = function() {
-
+//kdyz chceme pridat novou todo, kontrol na to musi nejak zareagovat
+  view.onSubmit = function () {  
+    this.createTodo();
   }.bind(this);
 
-  service.get().then(function (data) {
-
+  //start
+   //then - az service bude mit pripraveno, neco proved
+   //rekne this (view), at si updatuje data
+  service.get().then(function (data) {  
+    this.updateTodos(data);      
+    this.isLoading(false);
   }.bind(this));
 
   this.createTodo = function createTodo() {
-
+    if (view.inputValue() !== '') {
+      this.isLoading(true);
+      service.create(this.createData()).then(function (data) {
+        this.isLoading(false);
+        view.cleanInput();
+        this.updateTodos(data);
+      }.bind(this));
+    }
   };
 
   this.createData = function createData() {
-
+    return {
+      text: view.input.value
+    };
   };
 
   this.deleteTodo = function deleteTodo(id) {
-
+    this.isLoading(true);
+    service.delete(id).then(function (data) {
+      this.isLoading(false);
+      this.updateTodos(data);
+    }.bind(this));
   };
 
-  this.isLoading = function isLoading(state) {
-
+  this.isLoading = function isLoading(state) {  
+    this.loading = state;
+    view.isLoading(state);
   }
 
   this.updateTodos = function (data) {
-
+    this.todos = data;
+    view.updateTodos(data);
   }
 };
 
